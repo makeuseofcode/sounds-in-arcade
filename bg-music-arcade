@@ -1,0 +1,49 @@
+import arcade
+
+WIDTH = 800
+HEIGHT = 600
+
+PLAYER_WIDTH = 50
+PLAYER_HEIGHT = 50
+
+background_music = arcade.load_sound("bgmusic.wav")
+
+
+class Player:
+    def __init__(self):
+        self.x = WIDTH // 2
+
+    def move_left(self):
+        self.x -= 10
+
+    def move_right(self):
+        self.x += 10
+
+    def draw(self):
+        arcade.draw_rectangle_filled(self.x, HEIGHT // 2, PLAYER_WIDTH, PLAYER_HEIGHT, arcade.color.BLUE)
+
+class MyGame(arcade.Window):
+    def __init__(self, width, height, title):
+        super().__init__(width, height, title)
+        arcade.set_background_color(arcade.color.WHITE)
+        self.player = Player()
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.LEFT:
+            self.player.move_left()
+            arcade.play_sound(background_music)
+        elif key == arcade.key.RIGHT:
+            self.player.move_right()
+            arcade.play_sound(background_music)
+
+    def on_draw(self):
+        arcade.start_render()
+        self.player.draw()
+
+def main():
+    window = MyGame(WIDTH, HEIGHT, "My Game")
+    arcade.play_sound(background_music, volume=0.5, loop=True)
+    arcade.run()
+
+if __name__ == '__main__':
+    main()
